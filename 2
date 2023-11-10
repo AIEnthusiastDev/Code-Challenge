@@ -1,0 +1,59 @@
+Given an array of integers, return a new array such that each element at index i of the new array is the product of all the numbers in the original array except the one at i.
+For example, if our input was [1, 2, 3, 4, 5], the expected output would be [120, 60, 40, 30, 24]. If our input was [3, 2, 1], the expected output would be [2, 3, 6].
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+public class index {
+    public static List<Integer> indexList (List <Integer> givenList){
+        List <Integer> resultList = new List<Integer>();
+        Integer resultItem = 1;
+        for (Integer i=0; i<givenList.size();i++) {
+            for (Integer j=0; j<givenList.size();j++){
+                if (i== j) {
+                    continue;
+                }
+                else {
+                resultItem = resultItem*givenList[j];  }
+            }
+            resultList.add(resultItem) ;
+          	resultItem = 1;
+        }
+        return resultList;
+    }
+}
+—-----------------------
+above is with LIST
+with the ARRAY please see below code
+public Integer [] indexArray (Integer [] givenArray) {
+        Integer [] resultArr = new Integer [givenArray.length];
+        Integer resultItem = 1;
+        for (Integer i=0; i<givenArray.length ;i++) {
+            for (Integer j = 0; j < givenArray.length; j++) {
+                if (i == j) {
+                    continue;
+                } else {
+                    resultItem = resultItem * givenArray[j];
+                }
+            }
+            resultArr[i]= resultItem ;
+            resultItem = 1;
+        }
+        return resultArr;
+}
+—------------------------------------------
+above is for JAVA  Arrays
+for APEX Arrays please see below
+public  Integer [] indexArr (Integer [] givenArray) {
+        Integer [] resultArr = new List <Integer>();
+        Integer resultItem = 1;
+        for (Integer i=0; i<givenArray.size();i++) {
+            for (Integer j=0; j<givenArray.size();j++){
+                if (i== j) {
+                continue;
+                }
+                else {
+                resultItem = resultItem*givenArray[j];  }
+        }
+        resultArr.add (resultItem) ;
+        resultItem = 1;
+    }
+        return resultArr;
+}
