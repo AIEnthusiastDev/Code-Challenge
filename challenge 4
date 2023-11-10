@@ -34,3 +34,31 @@ but without testing not posssible to deploy code production...
         }
     }
 }
+----------------------------------------------------------------------------------------
+Code Challenge-4 Solution
+--------------------------------
+@isTest
+public class AccountoppTriggerTest2 {
+@isTest
+    public static void insertPositive(){
+	Account newAcc = new Account(Name='TestAccount', Industry='Agriculture');
+        Test.startTest();
+        insert newAcc;
+        Test.stopTest();
+        Opportunity [] oppList = [Select id, Account.name, CloseDate, Amount from
+                                 Opportunity where AccountId =: newAcc.Id];
+        system.assertEquals(1, oppList.size(), 'Only 1 opportunity should be inserted for the Account');
+        system.assertEquals(newAcc.Name, oppList[0].Account.Name, 'Only 1 opportunity should be inserted for the Account');
+		system.assertEquals(0, oppList[0].Amount, 'Amount in the inserted opportunity should be 0');
+    }
+    @isTest
+    public static void insertNegative(){
+	Account newAcc = new Account(Name='TestAccount', Industry='Education');
+        Test.startTest();
+        insert newAcc;
+        Test.stopTest();
+        Opportunity [] oppList = [Select id, Account.name, CloseDate, Amount from
+                                 Opportunity where AccountId =: newAcc.Id];
+        system.assertEquals(0, oppList.size(), 'Only 1 opportunity should be inserted for the Account');
+    }
+}
