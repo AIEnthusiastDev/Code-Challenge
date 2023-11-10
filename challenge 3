@@ -1,0 +1,22 @@
+Sometimes users might be leave company for various reasons when this happen
+then it is required to update the owner field for all the accounts and contacts he/she owns...
+Also if the owner of an account is changed then the owner for the related contacts should also be updated.
+*Please provide a programmatic solution.. It will be pretty handy.
+---------------------------------------------------------------------------------------------------------------
+  trigger AccountTrigger on Account (after update) {
+    if(Trigger.isUpdate && Trigger.isAfter){
+        List<Id> accountIds = new List<Id>();
+        for(Account acc1 :Trigger.new){
+            if(acc1.ownerId != Trigger.oldMap.get(acc1.Id).OwnerId){
+                accountIds.add(acc1.Id);
+            }
+        }
+        if(accountIds.size()!=0){
+            List<Contact> contacts = [Select Id, OwnerId, AccountId from Contact Where AccountId IN :accountIds];
+            for(Contact con1 :contacts){
+                con1.OwnerId = Trigger.newMap.get(con1.AccountId).OwnerId;
+            }
+            update contacts;
+        }
+    }
+}
