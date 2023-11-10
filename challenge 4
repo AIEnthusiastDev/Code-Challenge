@@ -1,0 +1,36 @@
+Someone in our development team developed an apex code which handle Account create/update with related opportunity record for industry 'Agriculture'.
+but without testing not posssible to deploy code production...
+*** test coverage should be %100
+  -------------------------------------------------------------------------------------------------------------------------------------------
+  trigger AccountOppTrigger on Account (after insert, after update) {
+    if(Trigger.isInsert && Trigger.isAfter) {
+        List<Opportunity> listOfOpportunities = new List<Opportunity>();
+        for(Account acc : Trigger.new) {
+            if(acc.Industry == 'Agriculture') {
+                listOfOpportunities.add(new Opportunity(Name = acc.Name+' Opp',
+                                                        AccountId = acc.Id,
+                                                        StageName = 'Prospecting',
+                                                        Amount = 0,
+                                                        CloseDate = System.today() + 90));
+            }
+        }
+        if(listOfOpportunities.isEmpty() == false) {
+            insert listOfOpportunities;
+        }
+    }
+    if(Trigger.isUpdate && Trigger.isAfter) {
+        List<Opportunity> listOfOpportunities = new List<Opportunity>();
+        for(Account acc : Trigger.new) {
+            if(acc.Industry != Trigger.oldMap.get(acc.Id).Industry && acc.Industry == 'Agriculture') {
+                listOfOpportunities.add(new Opportunity(Name = acc.Name+' Opp',
+                                                        AccountId = acc.Id,
+                                                        StageName = 'Prospecting',
+                                                        Amount = 0,
+                                                        CloseDate = System.today() + 90));
+            }
+        }
+        if(listOfOpportunities.isEmpty() == false) {
+            insert listOfOpportunities;
+        }
+    }
+}
