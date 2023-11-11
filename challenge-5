@@ -1,0 +1,31 @@
+1. Create a Task to review opportunity for all the opportunities irrespective of their StageName.
+2. Tasks should be assigned to the related Opportunity Owner
+and if the any of the Owner/User is inactive then assign the task to any user with profile System Administrator.
+**Hint: Opps amount greater than 2000.
+  ------------------------------------------
+  Code Challenge-5 Solution
+--------------------------------
+public class BatchTaskCreate implements Database.Batchable<sObject> {
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+        string query = 'Select Id, OwnerId, Owner.IsActive from Opportunity';
+            return Database.getQueryLocator(query);
+    }
+    public void execute(Database.BatchableContext bc, List<Opportunity> oppList){
+        List<Task> taskList = new List<Task>();
+        User adminUser = [Select Id from User Where Profile.Name = 'System Administrator' limit 1];
+        for(opportunity opp:oppList){
+            if(opp.Owner.IsActive){
+                taskList.add(new Task(WhatId = opp.Id,
+                                     OwnerId=opp.OwnerId,
+                                     subject='please review opportunity'));
+            } else{
+                taskList.add(new Task(WhatId = opp.Id,
+                                     OwnerId=adminUser.Id,
+                                     subject='please check this opportunity'));
+            }
+        }
+        insert taskList;
+    }
+    public void finish(Database.BatchableContext bc){
+    }
+}
