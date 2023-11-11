@@ -1,0 +1,20 @@
+Hey Junior Developer! Team Lead in your Company  come up with new use case that request followings ;
+We have too many accounts which have no contacts. Those are ex. Accounts ,no chance to get in contact with them to sell our products!
+Whenever last contact is deleted, those accounts should be removed from our system to facilitate the business process.
+----------------------------------------------------------------------------------------------------------------------------------------------
+Code Challenge-7 Solution
+--------------------------------
+Trigger Example1 on Contact (After Delete) {
+List<id> ids = new List<id>();
+for(Contact c : Trigger.old){
+if(c.AccountId != null){
+ids.add(c.AccountId);
+list<Contact> con = [select lastname,accountid,id from contact where
+accountid in : ids];
+if(con.size() == 0){
+Account a = [select name,id from account where id in : ids];
+Delete a;
+}
+}
+}
+}
