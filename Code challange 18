@@ -1,0 +1,33 @@
+The first two numbers in the fibonacci sequence are 1, and all other numbers in the sequence are defined as the sum of the last two fibonacci numbers. The first 10 numbers in the fibonacci sequence are 1, 1, 2, 3, 5, 8, 13, 21, 34, and 55.
+Implement the function fibonacci that takes as input an Integer n and returns the nth fibonacci number. Assume that n will always be greater than 0.
+fibonacci(1) = 1
+fibonacci(2) = 1
+fibonacci(5) = 5
+
+Hint 1
+Return 1 for the first two numbers, and use a loop from 3 to n to rest of the series
+Hint 2
+With every iteration of the loop, remember to maintain the current value and the last value in two separate variables.
+Hint 3
+If you are familiar with recursion, you can implement this function using recursive calls to calculate the last two values instead of a loop. Do note that the recursive implementation, while fun to implement, will not be as efficient as the implementation based on a loop.
+public Integer fibonacci(Integer n) {
+    //code here  
+}
+-------------------------------------------------------
+public Integer fibonacci(Integer n) {
+    //code here
+    if (n == 1 || n == 2) {
+            return 1;
+        }
+
+        Integer lastValue = 1;
+        Integer currentValue = 1;
+
+        for (Integer i = 3; i <= n; i++) {
+            Integer nextValue = lastValue + currentValue;
+            lastValue = currentValue;
+            currentValue = nextValue;
+        }
+
+        return currentValue;
+}
