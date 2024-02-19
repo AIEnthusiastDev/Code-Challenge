@@ -1,0 +1,18 @@
+Implement the method isTypeAccount(), which accepts a sObject as input and returns a true if type of input is Account object else it should return as false.
+Given the following test code:
+Account acc = new Account(name='Apple')
+Boolean result = isTypeAccount(acc);
+result should be equal to true
+Hint 1
+Use instanceof method
+public Boolean isTypeAccount(sObject record)
+{
+    // code here
+    
+}
+------------------------------------------
+public Boolean isTypeAccount(sObject record)
+{
+    // code here
+    return record instanceof Account;
+}
